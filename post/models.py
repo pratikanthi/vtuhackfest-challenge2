@@ -1,12 +1,12 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
-
-
+from django.template.defaultfilters import slugify
 
 class Category(models.Model):
     cat_name = models.CharField(max_length=255)
     cat_desc = models.TextField()
+    cat_slug = models.SlugField()
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -20,8 +20,9 @@ class Query(models.Model):
     title = models.CharField(max_length=255)
     query_details = models.TextField()
     date = models.DateTimeField(default = datetime.now)
-    query_by = models.ForeignKey(User, unique=True)
+    query_by = models.ForeignKey(User)
     query_cat = models.ManyToManyField(Category, related_name = "category")
+    query_slug = models.SlugField()
 
     class Meta:
         verbose_name_plural = 'Queries'

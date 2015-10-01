@@ -2,10 +2,10 @@ from django.contrib import admin
 from post.models import Query, Answer, Category
 
 class QueryAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'query_slug':('title',),}
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'cat_slug':('cat_name',),}
 
 class AnswerAdmin(admin.ModelAdmin):
     pass
