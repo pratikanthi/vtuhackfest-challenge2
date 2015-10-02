@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!DOCTYPE HTML>
 <html>
+
   <head>
     <title>{% block title %} VTUBeat - Home {% endblock %}</title>
   </head>
@@ -9,21 +10,34 @@
     {% block content %}
 
       <div class="container">
+        <div class="col-md-12 banner">
+          <h1>Welcome to VTUBeat</h1>
 
-        <h1>Welcome to VTUBeat</h1>
-        <p>VTUBeat is a discussion board for the students of Visversvaraya Technological University, you can
-          post queries, follow threads and answer to other queries
-        </p>
+          <p>VTUBeat is a discussion board for the students of Visversvaraya Technological University, you can
+            post queries, follow threads and answer to other queries
+          </p>
+        </div>
+
 
 
         <div class="row">
 
           <div class="col-md-4 sidebar">
-              <h3>Popular forum categories</h3>
-              
-              <div class="row">
+
+
+              <div class="row category-bar">
+                <h4>Popular forum categories</h4>
+                <hr/>
+                {% for category in categories %}
+                  <p><a href="{{ request.build_absolute_uri }}category/{{ category.cat_slug }}">{{ category }}</a></p>
+                {% endfor %}
+              </div>
+
+
+              <div class="row query-form">
                 <h4> Post a query</h4>
-                <form action="/post/" method="post">
+                <hr/>
+                <form action="{{ request.build_absolute_uri }}post/" method="post">
                     {% csrf_token %}
                     {{ form }}
                     <input type="submit" value="Submit" />
@@ -32,14 +46,26 @@
               </div>
           </div>
 
-          <div class="col-md-8 all-queries">
+          <div class="col-md-7 all-queries">
               <h3>Recent posts</h3>
+              <br/><br/>
               {% for query in queries %}
-              <div class="query">
 
-                <h4><b>{{ query.title }}</b></h4>
+              <div class="query">
+                <p>
+                  <b>
+                    <a href="{{ request.build_absolute_uri }}query/{{ query.query_slug }}">
+                      {{ query.title }}
+                    </a>
+                  </b>
+                  <span class="author">
+                    <br/> asked by {{ query.query_by }} on {{ query.date }}
+                  </span>
+                </p>
+
                 {{ query.query_details }}
               </div>
+              <hr/>
             {% endfor %}
           </div>
 

@@ -17,6 +17,7 @@ class Category(models.Model):
 
 
 class Query(models.Model):
+
     title = models.CharField(max_length=255)
     query_details = models.TextField()
     date = models.DateTimeField(default = datetime.now)
@@ -32,10 +33,11 @@ class Query(models.Model):
 
 
 class Answer(models.Model):
+
     answer_text = models.TextField()
     answer_date = models.DateTimeField(default = datetime.now)
     answer_to_query =  models.ForeignKey(Query)
-    answer_by = models.ForeignKey(User, unique=True)
+    answer_by = models.ForeignKey(User)
 
     class Meta:
         verbose_name_plural = 'Answers'
