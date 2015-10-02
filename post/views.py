@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from post.forms import QuerySubmitForm, AnswerForm
 from post.models import Query, Category, Answer
 from django.template.defaultfilters import slugify
 from post.forms import CHOICES
+
 
 def index(request):
     form = QuerySubmitForm()
@@ -17,17 +19,16 @@ def index(request):
 def submit(request):
     new_query = Query.objects.create(
 
-                    title=request.POST['query_title'],
-                    query_details = request.POST['query_text'],
+                    title=request.POST.get('query_title'),
+                    query_details = request.POST.get('query_text'),
                     query_by = request.user,
-                    query_slug = slugify(request.POST['query_title'])
+                    query_slug = slugify(request.POST.get('query_title'))
 
                     )
 
 
     new_query.save()
-
-    return HttpResponse("Your query has been submitted "+request.POST['query_cat'])
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def fetch_query(request,slug):
     query = Query.objects.get(query_slug=slug)
@@ -38,6 +39,7 @@ def fetch_query(request,slug):
         if form.is_valid():
             new_answer = Answer.objects.create(
 
+
                         answer_text = request.POST['answer'],
                         answer_to_query = query,
                         answer_by = request.user
@@ -46,10 +48,8 @@ def fetch_query(request,slug):
             new_answer.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    # if a GET (or any other method) we'll create a blank form
     else:
         form = AnswerForm()
-
     answers = Answer.objects.filter(answer_to_query = query)
     return render(request,"query.html",{"query":query,"form":form,"answers":answers},)
 
@@ -60,6 +60,13 @@ def fetch_category(request,slug):
     return render(request,"category.html",{"category":category,},)
 
 
-
 def profile(request):
     return render(request,"profile.html")
+
+
+def fetch_user(request,slug):
+    user = User.objects.get(username=slug)
+    if request.user == user:
+        return HttpResponseRedirect("/accounts/profile")
+    else:
+        return render(request,"user.html",{"user":user})

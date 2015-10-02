@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^post/$',post_views.submit),
     url(r'^query/(?P<slug>[\w\-]+)/?$',post_views.fetch_query),
     url(r'^category/(?P<slug>[\w\-]+)/?$',post_views.fetch_category),
+    url(r'^user/(?P<slug>[\w\-]+)/?$',post_views.fetch_user),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/profile/',post_views.profile),
     url(r'^accounts/', include('allauth.urls')),

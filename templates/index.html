@@ -22,7 +22,7 @@
 
         <div class="row">
 
-          <div class="col-md-4 sidebar">
+          <div class="col-md-4">
 
 
               <div class="row category-bar">
@@ -59,12 +59,14 @@
                     </a>
                   </b>
                   <span class="author">
-                    <br/> asked by {{ query.query_by }} on {{ query.date }}
+                    <br/> asked by <a href="{{ request.build_absolute_uri }}user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
                   </span>
                 </p>
 
                 {{ query.query_details }}
               </div>
+
+
               <hr/>
             {% endfor %}
           </div>
