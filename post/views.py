@@ -3,7 +3,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from post.forms import QuerySubmitForm, AnswerForm
-from post.models import Query, Category, Answer
+from post.models import Query, Category, Answer, UserProfile
 from django.template.defaultfilters import slugify
 from post.forms import CHOICES
 
@@ -22,7 +22,8 @@ def submit(request):
                     title=request.POST.get('query_title'),
                     query_details = request.POST.get('query_text'),
                     query_by = request.user,
-                    query_slug = slugify(request.POST.get('query_title'))
+                    query_slug = slugify(request.POST.get('query_title')),
+                    query_cat = Category.objects.get(id=request.POST.get('query_cat')),
 
                     )
 
@@ -57,16 +58,20 @@ def fetch_query(request,slug):
 
 def fetch_category(request,slug):
     category = Category.objects.get(cat_slug=slug)
-    return render(request,"category.html",{"category":category,},)
+    queries = Query.objects.filter(query_cat=category)
+    return render(request,"category.html",{"category":category,"queries":queries},)
 
 
 def profile(request):
-    return render(request,"profile.html")
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request,"profile.html",{"user_profile":user_profile})
 
 
 def fetch_user(request,slug):
     user = User.objects.get(username=slug)
+    user_profile = UserProfile.objects.get(user=user)
+
     if request.user == user:
         return HttpResponseRedirect("/accounts/profile")
     else:
-        return render(request,"user.html",{"user":user})
+        return render(request,"user.html",{"user":user,"user_profile":user_profile,},)

@@ -4,7 +4,29 @@
   <div class="row">
     <div class="col-md-8">
       <h2>Category : {{ category.cat_name }}</h2>
-      
+
+      {% for query in queries %}
+
+      <div class="query all-queries">
+        <p>
+          <b>
+            <a href="{{ request.build_absolute_uri }}query/{{ query.query_slug }}">
+              {{ query.title }}
+            </a>
+          </b>
+
+          <span class="author">
+            <br/> asked by <a href="{{ request.build_absolute_uri }}user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
+          </span>
+
+        </p>
+
+        {{ query.query_details }}
+      </div>
+
+
+      <hr/>
+    {% endfor %}
     </div>
   </div>
 </div>

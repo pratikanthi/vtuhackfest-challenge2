@@ -58,9 +58,12 @@
                       {{ query.title }}
                     </a>
                   </b>
+
                   <span class="author">
                     <br/> asked by <a href="{{ request.build_absolute_uri }}user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
+                    under &nbsp;<a href="{{ request.build_absolute_uri }}category/{{ query.query_cat.cat_slug }}"><span class="label label-danger query-tag">{{ query.query_cat }}</span></a>
                   </span>
+
                 </p>
 
                 {{ query.query_details }}

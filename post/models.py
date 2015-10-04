@@ -2,6 +2,15 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+import vtubeat.settings as settings
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    profile_picture = models.ImageField(upload_to = settings.MEDIA_ROOT)
+
+    def __unicode__(self):
+        return self.user.username
+
 
 class Category(models.Model):
     cat_name = models.CharField(max_length=255)
@@ -22,7 +31,7 @@ class Query(models.Model):
     query_details = models.TextField()
     date = models.DateTimeField(default = datetime.now)
     query_by = models.ForeignKey(User)
-    query_cat = models.ManyToManyField(Category, related_name = "category")
+    query_cat = models.ForeignKey(Category,null=True)
     query_slug = models.SlugField()
 
     class Meta:

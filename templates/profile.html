@@ -7,7 +7,7 @@
 
     <div class="col-md-3 sidebar">
 
-        <img src="" height="300px"/>
+        <img class="profile-picture" src="{{ MEDIA_URL }}{{ user_profile.profile_picture }}" width="100%"/>
         <h2><b>{{ request.user.first_name }}&nbsp;{{ request.user.last_name }}</b></h2>
         <p>{{ request.user.username }}</p>
         <p>{{ request.user.email }}
