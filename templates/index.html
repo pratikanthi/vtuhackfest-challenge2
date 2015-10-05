@@ -36,11 +36,11 @@
 
               <div class="row query-form">
                 <h4> Post a query</h4>
-                <hr/>
+                <br/>
                 <form action="http://{{ request.META.HTTP_HOST }}/post/" method="post">
                     {% csrf_token %}
                     {{ form }}
-                    <input type="submit" value="Submit" />
+                    <input type="submit" class="btn btn-danger" value="Submit" />
                 </form>
 
               </div>
@@ -52,7 +52,12 @@
               {% for query in queries %}
 
               <div class="query">
-                <p>
+                <div class="query-icon">
+
+                  <img class="profile-picture profile-icon" src="{{ MEDIA_URL }}{{ user.userprofile.profile_picture }}" height="25px"/>
+
+                </div>
+                <div class="query-meta">
                   <b>
                     <a href="http://{{ request.META.HTTP_HOST }}/query/{{ query.query_slug }}">
                       {{ query.title }}
@@ -60,13 +65,18 @@
                   </b>
 
                   <span class="author">
-                    <br/> asked by <a href="http://{{ request.META.HTTP_HOST }}/user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
-                    under &nbsp;<a href="http://{{ request.META.HTTP_HOST }}/category/{{ query.query_cat.cat_slug }}"><span class="label label-danger query-tag">{{ query.query_cat }}</span></a>
+                    <br/><i> asked by <a href="http://{{ request.META.HTTP_HOST }}/user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
+                    under </i>&nbsp;<a href="http://{{ request.META.HTTP_HOST }}/category/{{ query.query_cat.cat_slug }}"><span class="label label-danger query-tag">{{ query.query_cat }}</span></a>
                   </span>
 
-                </p>
+                </div>
+              </div>
 
-                {{ query.query_details }}
+              <div class="query-wrap">
+                <div class="query-answer">
+
+                  <p>{{ query.query_details }}</p>
+                </div>
               </div>
 
 

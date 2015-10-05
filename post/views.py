@@ -64,7 +64,9 @@ def fetch_category(request,slug):
 
 def profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
-    return render(request,"profile.html",{"user_profile":user_profile})
+    queries = Query.objects.filter(query_by = request.user )
+    answers = Answer.objects.filter(answer_by = request.user)
+    return render(request,"profile.html",{"user_profile":user_profile,"queries":queries,"answers":answers,})
 
 
 def fetch_user(request,slug):
