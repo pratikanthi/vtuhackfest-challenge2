@@ -40,14 +40,18 @@
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
                     <li>
-                        <a href="{{ request.build_absolute_uri }}accounts/profile">Edit profile</a>
+                        <a href="http://{{ request.META.HTTP_HOST }}/accounts/profile">Edit profile</a>
                     </li>
                     <li>
-
+                        <a href="http://{{ request.META.HTTP_HOST }}/accounts/logout">Logout</a>
                     </li>
+                    <li>
+                      <img class="profile-picture profile-icon" src="{{ MEDIA_URL }}{{ user.userprofile.profile_picture }}" height="25px"/>
+                    </li>
+
                     {% else %}
                     <li>
-                        <a href="{{ request.build_absolute_uri }}accounts/login">Sign in</a>
+                        <a href="http://{{ request.META.HTTP_HOST }}/accounts/login">Sign in</a>
                     </li>
                     {% endif %}
 

@@ -10,13 +10,13 @@
     {% block content %}
 
       <div class="container">
-        <div class="col-md-12 banner">
+        <!--div class="col-md-12 banner">
           <h1>Welcome to VTUBeat</h1>
 
           <p>VTUBeat is a discussion board for the students of Visversvaraya Technological University, you can
             post queries, follow threads and answer to other queries
           </p>
-        </div>
+        </div-->
 
 
 
@@ -29,7 +29,7 @@
                 <h4>Popular forum categories</h4>
                 <hr/>
                 {% for category in categories %}
-                  <p><a href="{{ request.build_absolute_uri }}category/{{ category.cat_slug }}">{{ category }}</a></p>
+                  <p><a href="http://{{ request.META.HTTP_HOST }}/category/{{ category.cat_slug }}">{{ category }}</a></p>
                 {% endfor %}
               </div>
 
@@ -37,7 +37,7 @@
               <div class="row query-form">
                 <h4> Post a query</h4>
                 <hr/>
-                <form action="{{ request.build_absolute_uri }}post/" method="post">
+                <form action="http://{{ request.META.HTTP_HOST }}/post/" method="post">
                     {% csrf_token %}
                     {{ form }}
                     <input type="submit" value="Submit" />
@@ -54,14 +54,14 @@
               <div class="query">
                 <p>
                   <b>
-                    <a href="{{ request.build_absolute_uri }}query/{{ query.query_slug }}">
+                    <a href="http://{{ request.META.HTTP_HOST }}/query/{{ query.query_slug }}">
                       {{ query.title }}
                     </a>
                   </b>
 
                   <span class="author">
-                    <br/> asked by <a href="{{ request.build_absolute_uri }}user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
-                    under &nbsp;<a href="{{ request.build_absolute_uri }}category/{{ query.query_cat.cat_slug }}"><span class="label label-danger query-tag">{{ query.query_cat }}</span></a>
+                    <br/> asked by <a href="http://{{ request.META.HTTP_HOST }}/user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
+                    under &nbsp;<a href="http://{{ request.META.HTTP_HOST }}/category/{{ query.query_cat.cat_slug }}"><span class="label label-danger query-tag">{{ query.query_cat }}</span></a>
                   </span>
 
                 </p>

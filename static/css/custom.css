@@ -67,7 +67,9 @@ body{
     height:100px;
     display:block;
     width:100%;
+    border:1px solid #eee;
 }
+
 
 
 .author{
@@ -85,4 +87,10 @@ body{
 .profile-picture{
   margin-top:15px;
   border:1px solid #eee;
+}
+
+
+.profile-icon{
+  border-radius:30px;
+  
 }

@@ -7,6 +7,7 @@ import vtubeat.settings as settings
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     profile_picture = models.ImageField(upload_to = settings.MEDIA_ROOT)
+    college_name = models.CharField(null=True, max_length=255)
 
     def __unicode__(self):
         return self.user.username
