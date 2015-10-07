@@ -12,10 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import dj_database_url
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-ALLOWED_HOSTS = ['*']
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,6 +24,8 @@ SECRET_KEY = 'ty&x(vzf3^w_aa8d55cn-s1f7a)&1n9yn@@b&%163&qf74lg3j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+ALLOWED_HOSTS = []
 
 
 AUTHENTICATION_BACKENDS = (
@@ -96,7 +94,12 @@ WSGI_APPLICATION = 'vtubeat.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES['default'] =  dj_database_url.config()
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 # Internationalization
@@ -134,10 +137,3 @@ MEDIA_URL = '/media/'
 # allauth settings #
 
 ACCOUNT_LOGOUT_ON_GET = True
-
-
-
-try:
-    from local_settings import *
-except ImportError as e:
-    pass
