@@ -31,6 +31,7 @@ def submit(request):
     new_query.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
 def fetch_query(request,slug):
     query = Query.objects.get(query_slug=slug)
     if request.method == 'POST':
@@ -71,9 +72,10 @@ def profile(request):
 
 def fetch_user(request,slug):
     user = User.objects.get(username=slug)
-    user_profile = UserProfile.objects.get(user=user)
+    queries = Query.objects.filter(query_by = user )
+    answers = Answer.objects.filter(answer_by = user)
 
     if request.user == user:
         return HttpResponseRedirect("/accounts/profile")
     else:
-        return render(request,"user.html",{"user":user,"user_profile":user_profile,},)
+        return render(request,"user.html",{"userr":user,"queries":queries,"answers":answers,},)

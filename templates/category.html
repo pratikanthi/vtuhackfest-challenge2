@@ -8,13 +8,13 @@
 
 
       <div class="all-queries">
-        <div class="page-header">
+        <div>
           <h3>{{category.cat_name }} <small></small></h3>
         </div>
 
         <br/>
         {% for query in queries %}
-        <p>
+        <!--p>
           <b>
             <a href="http://{{ request.META.HTTP_HOST }}/query/{{ query.query_slug }}">
               {{ query.title }}
@@ -25,9 +25,34 @@
             <br/> asked by <a href="http://{{ request.META.HTTP_HOST }}/user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
           </span>
 
-        </p>
+        </p-->
+        <div class="query">
+          <div class="query-icon">
 
-        {{ query.query_details }}
+          <img class="profile-picture profile-icon" src="{{ MEDIA_URL }}{{ query.query_by.userprofile.profile_picture }}" height="25px"/>
+
+          </div>
+          <div class="query-meta">
+            <b>
+              <a href="http://{{ request.META.HTTP_HOST }}/query/{{ query.query_slug }}">
+                {{ query.title }}
+              </a>
+            </b>
+
+            <span class="author">
+              <br/><i> asked by <a href="http://{{ request.META.HTTP_HOST }}/user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}</i>
+            </span>
+
+          </div>
+        </div>
+
+
+        <div class="query-wrap">
+          <div class="query-answer">
+            <p>{{ query.query_details }}</p>
+          </div>
+        </div>
+
         <hr/>
         {% endfor %}
 

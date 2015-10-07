@@ -9,7 +9,20 @@
   <body>
     {% block content %}
 
+      <div class="banner-home">
+
+        <div class="container">
+          <div class="site-title">
+            <span class="fa fa-comments"></span>
+            <h3>Welcome to VTUbeat</h3>
+            <p class="bullet">a discussion forum</p>
+
+          </div>
+        </div>
+
+      </div>
       <div class="container">
+
         <!--div class="col-md-12 banner">
           <h1>Welcome to VTUBeat</h1>
 
@@ -18,7 +31,24 @@
           </p>
         </div-->
 
+        <div class="row">
+          <div class="col-md-6 col-centered">
 
+
+              <form action="" method="POST">
+                {% csrf_token %}
+                <div class="col-xs-8">
+                  <input  type="text" class="form-control" placeholder="Subscribe to this forum with your email" ></input>
+                </div>
+
+                <div class="col-xs-4">
+                  <input  type="submit" class="btn btn-danger" value="Subscribe"></input>
+                </div>
+
+              </form>
+
+          </div>
+        </div>
 
         <div class="row">
 
@@ -48,14 +78,18 @@
 
           <div class="col-md-7 all-queries">
               <h3>Recent posts</h3>
-              <br/><br/>
+              <br/>
+              <br/>
               {% for query in queries %}
 
               <div class="query">
                 <div class="query-icon">
 
-                  <img class="profile-picture profile-icon" src="{{ MEDIA_URL }}{{ user.userprofile.profile_picture }}" height="25px"/>
-
+                {% if query.query_by.socialaccount_set.all %}
+                  <img class="profile-picture profile-icon" src="{{ query.query_by.socialaccount_set.all.0.get_avatar_url }}" height="25px"/>
+                {% else %}
+                  <img class="profile-picture profile-icon" src="http://{{ request.META.HTTP_HOST }}/{{ query.query_by.userprofile.profile_picture }}" height="25px" />
+                {% endif %}
                 </div>
                 <div class="query-meta">
                   <b>
@@ -65,14 +99,24 @@
                   </b>
 
                   <span class="author">
-                    <br/><i> asked by <a href="http://{{ request.META.HTTP_HOST }}/user/{{ query.query_by }}">{{ query.query_by }}</a> on {{ query.date }}
+                    <br/><i> asked by
+                    <a href="http://{{ request.META.HTTP_HOST }}/user/{{ query.query_by }}">
+
+                      {% if query.query_by.socialaccount_set.all %}
+                        {{ query.query_by.socialaccount_set.all.0.user }}
+                      {% else %}
+                        {{ query.query_by }}
+                      {% endif %}
+                    </a>
+                    on {{ query.date }}
+
                     under </i>&nbsp;<a href="http://{{ request.META.HTTP_HOST }}/category/{{ query.query_cat.cat_slug }}"><span class="label label-danger query-tag">{{ query.query_cat }}</span></a>
                   </span>
 
                 </div>
               </div>
 
-              <div class="query-wrap">
+            <div class="query-wrap">
                 <div class="query-answer">
 
                   <p>{{ query.query_details }}</p>

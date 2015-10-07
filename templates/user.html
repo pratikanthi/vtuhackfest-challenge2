@@ -6,17 +6,45 @@
   <div class="row">
 
     <div class="col-md-3 sidebar">
-
-        <img class="profile-picture" src="{{ MEDIA_URL }}{{ user_profile.profile_picture }}" width="100%"/>
-        <h2><b>{{ user.first_name }}&nbsp;{{ user.last_name }}</b></h2>
-        <p>{{ user.username }}</p>
-        <p>{{ user.email }}
+      {% if userr.socialaccount_set.all %}
+          <img class="profile-picture" src="{{ userr.socialaccount_set.all.0.get_avatar_url }}" width="100%"/>
+      {% else %}
+      <img class="profile-picture profile-icon" src="http://{{ request.META.HTTP_HOST }}/{{ userr.userprofile.profile_picture }}" width="100%"/>
+      {% endif %}
+        <h2><b>{{ social.name }}&nbsp;{{ social.last_name }}</b></h2>
+        <p>{{ userr.username }}</p>
+        <p>{{ userr.email }}
         <hr/>
 
     </div>
-    <div class="col-md-8 sidebar">
-        <h2>{{ user.username }}'s content</h2>
-    </div>
+    <div class="col-md-8">
+        <h3>{{ userr.socialaccount_set.all.0.username }}'s content</h3>
+        <hr/>
+
+        <div class="row">
+          <div class="col-md-6 user-questions">
+            <h4>Questions</h4>
+            <br/>
+            {% for query in queries %}
+              <div class="query not-inline">
+                <a href="http://{{ request.META.HTTP_HOST }}/query/{{ query.query_slug }}"><b>{{ query }}</b></a>
+                <p>{{ query.query_details }}
+              </div>
+              <hr/>
+            {% endfor %}
+          </div>
+          <div class="col-md-5 user-answers">
+            <h4>Answers</h4>
+              <br/>
+              {% for answer in answers %}
+              <a href="http://{{ request.META.HTTP_HOST }}/query/{{ answer.answer_to_query.query_slug }}"><b>{{ answer.answer_to_query.title }}</b></a>
+              <p>{{ answer }}</p>
+              <hr/>
+
+              {% endfor %}
+          </div>
+          </div>
+      </div>
 
   </div>
 </div>

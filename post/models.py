@@ -1,16 +1,24 @@
 from django.db import models
+from django.db.models import signals
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 import vtubeat.settings as settings
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    profile_picture = models.ImageField(upload_to = settings.MEDIA_ROOT)
-    college_name = models.CharField(null=True, max_length=255)
+    profile_picture = models.ImageField(upload_to = settings.MEDIA_ROOT,null=True, blank=True)
+    college_name = models.CharField(null=True, blank=True, max_length=255)
 
     def __unicode__(self):
         return self.user.username
+
+def create_user_profile(sender,instance,created,**kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+signals.post_save.connect(create_user_profile,sender=User, weak=False,dispatch_uid='models.create_user_profile')
 
 
 class Category(models.Model):
