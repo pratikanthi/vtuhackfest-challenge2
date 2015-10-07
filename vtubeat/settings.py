@@ -134,10 +134,3 @@ MEDIA_URL = '/media/'
 # allauth settings #
 
 ACCOUNT_LOGOUT_ON_GET = True
-
-
-
-try:
-    from local_settings import *
-except ImportError as e:
-    pass
