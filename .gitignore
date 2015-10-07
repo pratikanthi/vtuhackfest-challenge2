@@ -1,3 +1,4 @@
 *.pyc
-staticfiles
+staticroot
 db.sqlite3
+post/migrations/*
